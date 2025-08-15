@@ -136,52 +136,72 @@ function LeadForm() {
     setErr(null);
     try {
       // 1) Inserir no Supabase
-      const { supabase } = await import('./lib/supabase')
+      const { supabase } = await import("./lib/supabase");
 
-      let inserted = false
-      const { error: insertError } = await supabase
-        .from('leads')
-        .insert({
+      let inserted = false;
+      const { error: insertError } = await supabase.from("leads").insert(
+        {
           name,
           email,
           phone,
-          source: 'landing',
+          source: "landing",
           created_at: new Date().toISOString(),
-        }, { returning: 'minimal' })
+        },
+        { returning: "minimal" }
+      );
 
       if (insertError) {
         // Se já houver índice único em email, tratar 23505 (duplicate key) como não-erro
-        const msg = insertError.message?.toLowerCase?.() || ''
-        if (insertError.code === '23505' || msg.includes('duplicate') || insertError.details?.includes?.('already exists')) {
-          inserted = false
+        const msg = insertError.message?.toLowerCase?.() || "";
+        if (
+          insertError.code === "23505" ||
+          msg.includes("duplicate") ||
+          insertError.details?.includes?.("already exists")
+        ) {
+          inserted = false;
         } else {
-          throw insertError
+          throw insertError;
         }
       } else {
-        inserted = true
+        inserted = true;
       }
 
       // 2) Notificar no Discord (usar variável de ambiente para o webhook)
-      const webhook = import.meta.env.VITE_DISCORD_WEBHOOK_URL as string
+      const webhook = import.meta.env.VITE_DISCORD_WEBHOOK_URL as string;
       if (webhook) {
-        const duplicatedNote = inserted ? '' : ' (reenvio/duplicado)'
+        const duplicatedNote = inserted ? "" : " (reenvio/duplicado)";
         await fetch(webhook, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
             content: `Novo lead${duplicatedNote}: **${name}**\nEmail: ${email}\nTelefone: ${phone}`,
           }),
-        })
+        });
       }
 
-      setOk(inserted ? 'Recebemos seus dados! Obrigado pelo interesse.' : 'Já temos seus dados. Avisamos nosso time do seu novo interesse.')
-      setName(''); setEmail(''); setPhone('')
+      setOk(
+        inserted
+          ? "Recebemos seus dados! Obrigado pelo interesse."
+          : "Já temos seus dados. Avisamos nosso time do seu interesse."
+      );
+      setName("");
+      setEmail("");
+      setPhone("");
     } catch (e: any) {
-      console.error(e)
+      console.error(e);
+
+      const msg = e.message?.toLowerCase?.() || "";
+      if (
+        e.code === "23505" ||
+        msg.includes("duplicate") ||
+        e.details?.includes?.("already exists")
+      ) {
+        setOk("Já temos seus dados. Avisamos nosso time do seu interesse.");
+      }
       // Não exibir erro genérico se for duplicidade que passou batido
-      setErr('Não foi possível enviar agora. Tente novamente mais tarde.')
+      setErr("Não foi possível enviar agora. Tente novamente mais tarde.");
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
   }
 
