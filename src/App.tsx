@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 
 const sections = {
   hero: {
@@ -27,25 +27,68 @@ const sections = {
   ],
 }
 
+function MobileMenu() {
+  const [open, setOpen] = useState(false)
+  return (
+    <div className="md:hidden">
+      <button
+        aria-label="Abrir menu"
+        className="p-2 rounded-md border hover:bg-gray-50"
+        onClick={() => setOpen((v) => !v)}
+      >
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <line x1="3" y1="6" x2="21" y2="6" />
+          <line x1="3" y1="12" x2="21" y2="12" />
+          <line x1="3" y1="18" x2="21" y2="18" />
+        </svg>
+      </button>
+      {open && (
+        <div className="absolute left-0 right-0 top-full bg-white border-b shadow-sm">
+          <nav className="max-w-6xl mx-auto px-4 py-3 flex flex-col gap-3">
+            <a href="#como-funciona" className="py-2" onClick={() => setOpen(false)}>Como funciona</a>
+            <a href="#beneficios" className="py-2" onClick={() => setOpen(false)}>Benefícios</a>
+            <a href="#faq" className="py-2" onClick={() => setOpen(false)}>FAQ</a>
+            <div className="flex gap-3 pt-1 pb-2">
+              <a href="#cta" onClick={() => setOpen(false)} className="flex-1 text-center px-4 py-2 rounded-md bg-brand text-white hover:opacity-90">
+                {sections.hero.ctaPrimary}
+              </a>
+              <a href="/dashboard" onClick={() => setOpen(false)} className="flex-1 text-center px-4 py-2 rounded-md border hover:bg-gray-50">
+                Acessar
+              </a>
+            </div>
+          </nav>
+        </div>
+      )}
+    </div>
+  )
+}
+
 export default function App() {
   return (
     <div className="min-h-screen flex flex-col">
       <header className="sticky top-0 z-10 bg-white/80 backdrop-blur border-b">
         <div className="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
           <div className="font-semibold">Nutri Assist</div>
-          <nav className="flex gap-4 text-sm">
-            <a href="#como-funciona" className="hover:text-brand">Como funciona</a>
-            <a href="#beneficios" className="hover:text-brand">Benefícios</a>
-            <a href="#faq" className="hover:text-brand">FAQ</a>
-          </nav>
-          <div className="flex items-center gap-3">
-            <a href="#cta" className="px-4 py-2 rounded-md bg-brand text-white hover:opacity-90">
-              {sections.hero.ctaPrimary}
-            </a>
-            <a href="/dashboard" className="px-4 py-2 rounded-md border hover:bg-gray-50">
-              Acessar
-            </a>
+
+          {/* Desktop nav */}
+          <div className="hidden md:flex items-center gap-6">
+            <nav className="flex gap-4 text-sm">
+              <a href="#como-funciona" className="hover:text-brand">Como funciona</a>
+              <a href="#beneficios" className="hover:text-brand">Benefícios</a>
+              <a href="#faq" className="hover:text-brand">FAQ</a>
+            </nav>
+            <div className="flex items-center gap-3">
+              <a href="#cta" className="px-4 py-2 rounded-md bg-brand text-white hover:opacity-90">
+                {sections.hero.ctaPrimary}
+              </a>
+              <a href="/dashboard" className="px-4 py-2 rounded-md border hover:bg-gray-50">
+                Acessar
+              </a>
+            </div>
           </div>
+
+          {/* Mobile menu button */}
+          <MobileMenu />
         </div>
       </header>
 
