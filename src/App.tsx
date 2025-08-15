@@ -38,9 +38,14 @@ export default function App() {
             <a href="#beneficios" className="hover:text-brand">Benefícios</a>
             <a href="#faq" className="hover:text-brand">FAQ</a>
           </nav>
-          <a href="#cta" className="px-4 py-2 rounded-md bg-brand text-white hover:opacity-90">
-            {sections.hero.ctaPrimary}
-          </a>
+          <div className="flex items-center gap-3">
+            <a href="#cta" className="px-4 py-2 rounded-md bg-brand text-white hover:opacity-90">
+              {sections.hero.ctaPrimary}
+            </a>
+            <a href="/dashboard" className="px-4 py-2 rounded-md border hover:bg-gray-50">
+              Acessar
+            </a>
+          </div>
         </div>
       </header>
 
@@ -59,8 +64,8 @@ export default function App() {
                 <a href="#cta" className="px-5 py-3 rounded-md bg-brand text-white hover:opacity-90">
                   {sections.hero.ctaPrimary}
                 </a>
-                <a href="#demo" className="px-5 py-3 rounded-md border hover:bg-gray-50">
-                  {sections.hero.ctaSecondary}
+                <a href="/dashboard" className="px-5 py-3 rounded-md border hover:bg-gray-50">
+                  Acessar
                 </a>
               </div>
             </div>
@@ -139,8 +144,8 @@ export default function App() {
               <p className="mt-2 text-white/90">Gere seu primeiro plano em segundos.</p>
             </div>
             <div className="flex md:justify-end">
-              <a href="#" className="px-6 py-3 rounded-md bg-white text-brand font-medium hover:opacity-90">
-                {sections.hero.ctaPrimary}
+              <a href="/dashboard" className="px-6 py-3 rounded-md bg-white text-brand font-medium hover:opacity-90">
+                Acessar
               </a>
             </div>
           </div>
