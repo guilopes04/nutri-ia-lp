@@ -118,6 +118,76 @@ function MobileMenu() {
   );
 }
 
+function LeadForm() {
+  const [name, setName] = useState('')
+  const [email, setEmail] = useState('')
+  const [phone, setPhone] = useState('')
+  const [loading, setLoading] = useState(false)
+  const [ok, setOk] = useState<string | null>(null)
+  const [err, setErr] = useState<string | null>(null)
+
+  async function onSubmit(e: React.FormEvent) {
+    e.preventDefault()
+    setLoading(true)
+    setOk(null)
+    setErr(null)
+    try {
+      // 1) Inserir no Supabase
+      const { supabase } = await import('./lib/supabase')
+      const { error } = await supabase.from('leads').insert({
+        name,
+        email,
+        phone,
+        source: 'landing',
+        created_at: new Date().toISOString(),
+      })
+      if (error) throw error
+
+      // 2) Notificar no Discord (usar variável de ambiente para o webhook)
+      const webhook = import.meta.env.VITE_DISCORD_WEBHOOK_URL as string
+      if (webhook) {
+        await fetch(webhook, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            content: `Novo lead: **${name}**\nEmail: ${email}\nTelefone: ${phone}`,
+          }),
+        })
+      }
+
+      setOk('Recebemos seus dados! Obrigado pelo interesse.')
+      setName(''); setEmail(''); setPhone('')
+    } catch (e: any) {
+      console.error(e)
+      setErr('Não foi possível enviar agora. Tente novamente mais tarde.')
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  return (
+    <form onSubmit={onSubmit} className="mt-6 grid gap-3 rounded-lg border bg-white p-4">
+      {ok && <div className="rounded-md bg-green-50 text-green-700 px-3 py-2 text-sm">{ok}</div>}
+      {err && <div className="rounded-md bg-red-50 text-red-700 px-3 py-2 text-sm">{err}</div>}
+      <div className="grid gap-1">
+        <label className="text-sm" htmlFor="lead-name">Nome</label>
+        <input id="lead-name" required value={name} onChange={(e) => setName(e.target.value)} placeholder="Seu nome" className="rounded-md border px-3 py-2" />
+      </div>
+      <div className="grid gap-1">
+        <label className="text-sm" htmlFor="lead-email">E-mail</label>
+        <input id="lead-email" type="email" required value={email} onChange={(e) => setEmail(e.target.value)} placeholder="voce@email.com" className="rounded-md border px-3 py-2" />
+      </div>
+      <div className="grid gap-1">
+        <label className="text-sm" htmlFor="lead-phone">Telefone</label>
+        <input id="lead-phone" required value={phone} onChange={(e) => setPhone(e.target.value)} placeholder="(11) 99999-9999" className="rounded-md border px-3 py-2" />
+      </div>
+      <button type="submit" disabled={loading} className="mt-2 inline-flex items-center justify-center rounded-md bg-brand px-4 py-2 text-white hover:opacity-90 disabled:opacity-50">
+        {loading ? 'Enviando...' : 'Quero saber mais'}
+      </button>
+    </form>
+  )
+}
+
 export default function App() {
   return (
     <div className="min-h-screen flex flex-col">
@@ -241,11 +311,16 @@ export default function App() {
           </div>
         </section>
 
+        {/* Contato / Lead */}
+        <section id="contato" className="max-w-3xl mx-auto px-4 py-16">
+          <h2 className="text-2xl md:text-3xl font-semibold">Entre em contato</h2>
+          <p className="mt-2 text-gray-600">Deixe seus dados e nós entraremos em contato.</p>
+          <LeadForm />
+        </section>
+
         {/* FAQ */}
         <section id="faq" className="max-w-3xl mx-auto px-4 py-16">
-          <h2 className="text-2xl md:text-3xl font-semibold">
-            Perguntas frequentes
-          </h2>
+          <h2 className="text-2xl md:text-3xl font-semibold">Perguntas frequentes</h2>
           <div className="mt-6 space-y-4">
             {sections.faq.map((f) => (
               <details key={f.q} className="rounded-md border bg-white p-4">
