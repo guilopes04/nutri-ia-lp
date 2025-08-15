@@ -92,6 +92,9 @@ function MobileMenu() {
             >
               Benefícios
             </a>
+            <a href="#contato" className="py-2" onClick={() => setOpen(false)}>
+              Contato
+            </a>
             <a href="#faq" className="py-2" onClick={() => setOpen(false)}>
               FAQ
             </a>
@@ -132,30 +135,41 @@ function LeadForm() {
     setOk(null)
     setErr(null)
     try {
-      // 1) Inserir no Supabase
+      // 1) Inserir no Supabase (evitar duplicidade por email)
       const { supabase } = await import('./lib/supabase')
-      const { error } = await supabase.from('leads').insert({
-        name,
-        email,
-        phone,
-        source: 'landing',
-        created_at: new Date().toISOString(),
-      })
-      if (error) throw error
+
+      const { count } = await supabase
+        .from('leads')
+        .select('id', { count: 'exact', head: true })
+        .eq('email', email)
+
+      let inserted = false
+      if (!count || count === 0) {
+        const { error } = await supabase.from('leads').insert({
+          name,
+          email,
+          phone,
+          source: 'landing',
+          created_at: new Date().toISOString(),
+        })
+        if (error) throw error
+        inserted = true
+      }
 
       // 2) Notificar no Discord (usar variável de ambiente para o webhook)
       const webhook = import.meta.env.VITE_DISCORD_WEBHOOK_URL as string
       if (webhook) {
+        const duplicatedNote = inserted ? '' : ' (reenvio/duplicado)'
         await fetch(webhook, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
-            content: `Novo lead: **${name}**\nEmail: ${email}\nTelefone: ${phone}`,
+            content: `Novo lead${duplicatedNote}: **${name}**\nEmail: ${email}\nTelefone: ${phone}`,
           }),
         })
       }
 
-      setOk('Recebemos seus dados! Obrigado pelo interesse.')
+      setOk(inserted ? 'Recebemos seus dados! Obrigado pelo interesse.' : 'Já temos seus dados. Avisamos nosso time do seu novo interesse.')
       setName(''); setEmail(''); setPhone('')
     } catch (e: any) {
       console.error(e)
@@ -203,6 +217,9 @@ export default function App() {
               </a>
               <a href="#beneficios" className="hover:text-brand">
                 Benefícios
+              </a>
+              <a href="#contato" className="hover:text-brand">
+                Contato
               </a>
               <a href="#faq" className="hover:text-brand">
                 FAQ
