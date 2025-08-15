@@ -121,6 +121,16 @@ function MobileMenu() {
   );
 }
 
+function sanitizeEmail(v: string) { return v.trim().toLowerCase(); }
+function onlyDigits(v: string) { return v.replace(/\D+/g, ""); }
+function formatBrPhone(v: string) {
+  const d = onlyDigits(v).slice(0, 11);
+  if (d.length <= 2) return d;
+  if (d.length <= 6) return `(${d.slice(0,2)}) ${d.slice(2)}`;
+  if (d.length <= 10) return `(${d.slice(0,2)}) ${d.slice(2,6)}-${d.slice(6,10)}`;
+  return `(${d.slice(0,2)}) ${d.slice(2,7)}-${d.slice(7,11)}`;
+}
+
 function LeadForm() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -141,9 +151,9 @@ function LeadForm() {
       let inserted = false;
       const { error: insertError } = await supabase.from("leads").insert(
         {
-          name,
-          email,
-          phone,
+          name: name.trim(),
+          email: sanitizeEmail(email),
+          phone: onlyDigits(phone),
           source: "landing",
           created_at: new Date().toISOString(),
         },
@@ -174,7 +184,7 @@ function LeadForm() {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
-            content: `Novo lead${duplicatedNote}: **${name}**\nEmail: ${email}\nTelefone: ${phone}`,
+            content: `Novo lead${duplicatedNote}: **${name.trim()}**\nEmail: ${sanitizeEmail(email)}\nTelefone: ${onlyDigits(phone)}`,
           }),
         });
       }
@@ -234,9 +244,13 @@ function LeadForm() {
           type="email"
           required
           value={email}
-          onChange={(e) => setEmail(e.target.value)}
+          onChange={(e) => setEmail(sanitizeEmail(e.target.value))}
           placeholder="voce@email.com"
           className="rounded-md border px-3 py-2"
+          inputMode="email"
+          autoCapitalize="off"
+          autoCorrect="off"
+          spellCheck={false}
         />
       </div>
       <div className="grid gap-1">
@@ -247,9 +261,12 @@ function LeadForm() {
           id="lead-phone"
           required
           value={phone}
-          onChange={(e) => setPhone(e.target.value)}
+          onChange={(e) => setPhone(formatBrPhone(e.target.value))}
           placeholder="(11) 99999-9999"
           className="rounded-md border px-3 py-2"
+          inputMode="numeric"
+          pattern="[0-9()\s-]*"
+          maxLength={16}
         />
       </div>
       <button
