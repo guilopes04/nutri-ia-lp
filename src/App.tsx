@@ -184,12 +184,6 @@ function LeadForm() {
       setLoading(false)
     }
   }
-      console.error(e);
-      setErr("Não foi possível enviar agora. Tente novamente mais tarde.");
-    } finally {
-      setLoading(false);
-    }
-  }
 
   return (
     <form
