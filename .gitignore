@@ -1,0 +1,8 @@
+# Ignorar dependências, build e IDE
+node_modules
+.dist
+/dist
+.vscode
+.DS_Store
+.env
+
