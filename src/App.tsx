@@ -190,14 +190,6 @@ function LeadForm() {
     } catch (e: any) {
       console.error(e);
 
-      const msg = e.message?.toLowerCase?.() || "";
-      if (
-        e.code === "23505" ||
-        msg.includes("duplicate") ||
-        e.details?.includes?.("already exists")
-      ) {
-        setOk("Já temos seus dados. Avisamos nosso time do seu interesse.");
-      }
       // Não exibir erro genérico se for duplicidade que passou batido
       setErr("Não foi possível enviar agora. Tente novamente mais tarde.");
     } finally {
