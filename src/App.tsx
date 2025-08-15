@@ -153,8 +153,30 @@ function LeadForm() {
       // 1) Inserir no Supabase
       const { supabase } = await import("./lib/supabase");
 
-      let inserted = false;
-      const { error: insertError } = await supabase.from("leads").insert(
+      const { data: existingLead } = await supabase
+        .from("leads")
+        .select("id")
+        .eq("email", sanitizeEmail(email));
+
+      if (existingLead && existingLead.length > 0) {
+        // Se já existe lead com esse email, não inserir novamente
+        await notifyDiscord(
+          {
+            name: name.trim(),
+            email: sanitizeEmail(email),
+            phone: onlyDigits(phone),
+          },
+          true // É reenvio/duplicado
+        );
+
+        setOk("Já temos seus dados. Avisamos nosso time do seu interesse.");
+        setName("");
+        setEmail("");
+        setPhone("");
+        return new Response(JSON.stringify({ ok: true }), { status: 200 });
+      }
+
+      await supabase.from("leads").insert(
         {
           name: name.trim(),
           email: sanitizeEmail(email),
@@ -165,42 +187,17 @@ function LeadForm() {
         { returning: "minimal" }
       );
 
-      if (insertError) {
-        // Se já houver índice único em email, tratar 23505 (duplicate key) como não-erro
-        const msg = insertError.message?.toLowerCase?.() || "";
-        if (
-          insertError.code === "23505" ||
-          msg.includes("duplicate") ||
-          insertError.details?.includes?.("already exists")
-        ) {
-          inserted = false;
-        } else {
-          throw insertError;
-        }
-      } else {
-        inserted = true;
-      }
-
       // 2) Notificar no Discord (usar variável de ambiente para o webhook)
-      const webhook = import.meta.env.VITE_DISCORD_WEBHOOK_URL as string;
-      if (webhook) {
-        const duplicatedNote = inserted ? "" : " (reenvio/duplicado)";
-        await fetch(webhook, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            content: `Novo lead${duplicatedNote}: **${name.trim()}**\nEmail: ${sanitizeEmail(
-              email
-            )}\nTelefone: ${onlyDigits(phone)}`,
-          }),
-        });
-      }
-
-      setOk(
-        inserted
-          ? "Recebemos seus dados! Obrigado pelo interesse."
-          : "Já temos seus dados. Avisamos nosso time do seu interesse."
+      await notifyDiscord(
+        {
+          name: name.trim(),
+          email: sanitizeEmail(email),
+          phone: onlyDigits(phone),
+        },
+        false // Não é reenvio
       );
+
+      setOk("Recebemos seus dados! Obrigado pelo interesse.");
       setName("");
       setEmail("");
       setPhone("");
@@ -214,6 +211,29 @@ function LeadForm() {
       setErr("Não foi possível enviar agora. Tente novamente mais tarde.");
     } finally {
       setLoading(false);
+    }
+  }
+
+  async function notifyDiscord(
+    lead: {
+      name: string;
+      email: string;
+      phone: string;
+    },
+    resend: boolean
+  ) {
+    const webhook = import.meta.env.VITE_DISCORD_WEBHOOK_URL as string;
+    if (webhook) {
+      const duplicatedNote = resend ? " (reenvio/duplicado)" : "";
+      await fetch(webhook, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          content: `Novo lead${duplicatedNote}: **${lead.name.trim()}**\nEmail: ${sanitizeEmail(
+            lead.email
+          )}\nTelefone: ${onlyDigits(lead.phone)}`,
+        }),
+      });
     }
   }
 
