@@ -1,34 +1,58 @@
-import React, { useState } from 'react'
+import React, { useState } from "react";
 
 const sections = {
   hero: {
-    title: 'Monte planos alimentares 10x mais rápido com IA',
-    subtitle: 'De TMB/TDEE ao plano semanal pronto para Excel — em segundos.',
-    ctaPrimary: 'Experimentar agora',
-    ctaSecondary: 'Ver demonstração',
+    title: "Monte planos alimentares 10x mais rápido com IA",
+    subtitle: "De TMB/TDEE ao plano semanal pronto para Excel — em segundos.",
+    ctaPrimary: "Experimentar agora",
+    ctaSecondary: "Ver demonstração",
   },
   howItWorks: [
-    { title: '1. Preencha os dados', desc: 'Nome, idade, sexo, peso, altura, objetivo, atividade, preferências e restrições.' },
-    { title: '2. Confira as métricas', desc: 'Cálculo automático de TMB, TDEE, IMC e alvo calórico.' },
-    { title: '3. Gere com IA', desc: 'Plano semanal personalizado em poucos segundos.' },
-    { title: '4. Exporte em CSV', desc: 'Leve para Excel/Google Sheets e compartilhe.' },
+    {
+      title: "1. Preencha os dados",
+      desc: "Nome, idade, sexo, peso, altura, objetivo, atividade, preferências e restrições.",
+    },
+    {
+      title: "2. Confira as métricas",
+      desc: "Cálculo automático de TMB, TDEE, IMC e alvo calórico.",
+    },
+    {
+      title: "3. Gere com IA",
+      desc: "Plano semanal personalizado em poucos segundos.",
+    },
+    {
+      title: "4. Exporte em CSV",
+      desc: "Leve para Excel/Google Sheets e compartilhe.",
+    },
   ],
   benefits: [
-    'Planos em segundos, não em horas',
-    'Cálculo automático de TMB, TDEE, IMC e alvo calórico',
-    'Personalização por objetivo, atividade, preferências e restrições',
-    'Exportação CSV para Excel/Google Sheets',
+    "Planos em segundos, não em horas",
+    "Cálculo automático de TMB, TDEE, IMC e alvo calórico",
+    "Personalização por objetivo, atividade, preferências e restrições",
+    "Exportação CSV para Excel/Google Sheets",
   ],
   faq: [
-    { q: 'O plano é realmente personalizado?', a: 'Sim, usa dados do paciente, objetivo, atividade, restrições e preferências.' },
-    { q: 'Quais cálculos a ferramenta faz?', a: 'TMB (Mifflin-St Jeor), TDEE (fator de atividade), IMC e alvo calórico.' },
-    { q: 'Posso editar o plano?', a: 'Sim, exporte em CSV e edite no Excel/Google Sheets.' },
-    { q: 'Preciso de integração com prontuário?', a: 'Não é obrigatório; você pode anexar o CSV manualmente.' },
+    {
+      q: "O plano é realmente personalizado?",
+      a: "Sim, usa dados do paciente, objetivo, atividade, restrições e preferências.",
+    },
+    {
+      q: "Quais cálculos a ferramenta faz?",
+      a: "TMB (Mifflin-St Jeor), TDEE (fator de atividade), IMC e alvo calórico.",
+    },
+    {
+      q: "Posso editar o plano?",
+      a: "Sim, exporte em CSV e edite no Excel/Google Sheets.",
+    },
+    {
+      q: "Preciso de integração com prontuário?",
+      a: "Não é obrigatório; você pode anexar o CSV manualmente.",
+    },
   ],
-}
+};
 
 function MobileMenu() {
-  const [open, setOpen] = useState(false)
+  const [open, setOpen] = useState(false);
   return (
     <div className="md:hidden">
       <button
@@ -36,7 +60,16 @@ function MobileMenu() {
         className="p-2 rounded-md border hover:bg-gray-50"
         onClick={() => setOpen((v) => !v)}
       >
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <svg
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        >
           <line x1="3" y1="6" x2="21" y2="6" />
           <line x1="3" y1="12" x2="21" y2="12" />
           <line x1="3" y1="18" x2="21" y2="18" />
@@ -45,14 +78,36 @@ function MobileMenu() {
       {open && (
         <div className="absolute left-0 right-0 top-full bg-white border-b shadow-sm">
           <nav className="max-w-6xl mx-auto px-4 py-3 flex flex-col gap-3">
-            <a href="#como-funciona" className="py-2" onClick={() => setOpen(false)}>Como funciona</a>
-            <a href="#beneficios" className="py-2" onClick={() => setOpen(false)}>Benefícios</a>
-            <a href="#faq" className="py-2" onClick={() => setOpen(false)}>FAQ</a>
+            <a
+              href="#como-funciona"
+              className="py-2"
+              onClick={() => setOpen(false)}
+            >
+              Como funciona
+            </a>
+            <a
+              href="#beneficios"
+              className="py-2"
+              onClick={() => setOpen(false)}
+            >
+              Benefícios
+            </a>
+            <a href="#faq" className="py-2" onClick={() => setOpen(false)}>
+              FAQ
+            </a>
             <div className="flex gap-3 pt-1 pb-2">
-              <a href="#cta" onClick={() => setOpen(false)} className="flex-1 text-center px-4 py-2 rounded-md bg-brand text-white hover:opacity-90">
+              <a
+                href="#cta"
+                onClick={() => setOpen(false)}
+                className="flex-1 text-center px-4 py-2 rounded-md bg-brand text-white hover:opacity-90"
+              >
                 {sections.hero.ctaPrimary}
               </a>
-              <a href="/dashboard" onClick={() => setOpen(false)} className="flex-1 text-center px-4 py-2 rounded-md border hover:bg-gray-50">
+              <a
+                href="/dashboard"
+                onClick={() => setOpen(false)}
+                className="flex-1 text-center px-4 py-2 rounded-md border hover:bg-gray-50"
+              >
                 Acessar
               </a>
             </div>
@@ -60,7 +115,7 @@ function MobileMenu() {
         </div>
       )}
     </div>
-  )
+  );
 }
 
 export default function App() {
@@ -73,15 +128,27 @@ export default function App() {
           {/* Desktop nav */}
           <div className="hidden md:flex items-center gap-6">
             <nav className="flex gap-4 text-sm">
-              <a href="#como-funciona" className="hover:text-brand">Como funciona</a>
-              <a href="#beneficios" className="hover:text-brand">Benefícios</a>
-              <a href="#faq" className="hover:text-brand">FAQ</a>
+              <a href="#como-funciona" className="hover:text-brand">
+                Como funciona
+              </a>
+              <a href="#beneficios" className="hover:text-brand">
+                Benefícios
+              </a>
+              <a href="#faq" className="hover:text-brand">
+                FAQ
+              </a>
             </nav>
             <div className="flex items-center gap-3">
-              <a href="#cta" className="px-4 py-2 rounded-md bg-brand text-white hover:opacity-90">
+              <a
+                href="#cta"
+                className="px-4 py-2 rounded-md bg-brand text-white hover:opacity-90"
+              >
                 {sections.hero.ctaPrimary}
               </a>
-              <a href="/dashboard" className="px-4 py-2 rounded-md border hover:bg-gray-50">
+              <a
+                href="/dashboard"
+                className="px-4 py-2 rounded-md border hover:bg-gray-50"
+              >
                 Acessar
               </a>
             </div>
@@ -104,16 +171,22 @@ export default function App() {
                 {sections.hero.subtitle}
               </p>
               <div className="mt-6 flex gap-3">
-                <a href="#cta" className="px-5 py-3 rounded-md bg-brand text-white hover:opacity-90">
+                <a
+                  href="#cta"
+                  className="px-5 py-3 rounded-md bg-brand text-white hover:opacity-90"
+                >
                   {sections.hero.ctaPrimary}
                 </a>
-                <a href="/dashboard" className="px-5 py-3 rounded-md border hover:bg-gray-50">
+                <a
+                  href="/dashboard"
+                  className="px-5 py-3 rounded-md border hover:bg-gray-50"
+                >
                   Acessar
                 </a>
               </div>
             </div>
             <div className="rounded-lg border bg-white p-6 shadow-sm">
-              <div className="text-sm text-gray-500">Demonstração (mockup)</div>
+              <div className="text-sm text-gray-500">Demonstração</div>
               <div className="mt-3 grid grid-cols-2 gap-3 text-sm">
                 <div className="rounded-md border p-4">
                   <div className="text-xs uppercase text-gray-500">TMB</div>
@@ -133,7 +206,9 @@ export default function App() {
                 </div>
               </div>
               <div className="mt-4">
-                <button className="w-full px-4 py-2 rounded-md bg-brand text-white">Exportar plano (CSV)</button>
+                <button className="w-full px-4 py-2 rounded-md bg-brand text-white">
+                  Exportar plano (CSV)
+                </button>
               </div>
             </div>
           </div>
@@ -158,7 +233,9 @@ export default function App() {
             <h2 className="text-2xl md:text-3xl font-semibold">Benefícios</h2>
             <ul className="mt-6 grid md:grid-cols-2 gap-3 list-disc pl-6">
               {sections.benefits.map((b) => (
-                <li key={b} className="text-gray-700">{b}</li>
+                <li key={b} className="text-gray-700">
+                  {b}
+                </li>
               ))}
             </ul>
           </div>
@@ -166,7 +243,9 @@ export default function App() {
 
         {/* FAQ */}
         <section id="faq" className="max-w-3xl mx-auto px-4 py-16">
-          <h2 className="text-2xl md:text-3xl font-semibold">Perguntas frequentes</h2>
+          <h2 className="text-2xl md:text-3xl font-semibold">
+            Perguntas frequentes
+          </h2>
           <div className="mt-6 space-y-4">
             {sections.faq.map((f) => (
               <details key={f.q} className="rounded-md border bg-white p-4">
@@ -184,10 +263,15 @@ export default function App() {
               <h3 className="text-2xl md:text-3xl font-semibold">
                 Pronto para agilizar seus atendimentos?
               </h3>
-              <p className="mt-2 text-white/90">Gere seu primeiro plano em segundos.</p>
+              <p className="mt-2 text-white/90">
+                Gere seu primeiro plano em segundos.
+              </p>
             </div>
             <div className="flex md:justify-end">
-              <a href="/dashboard" className="px-6 py-3 rounded-md bg-white text-brand font-medium hover:opacity-90">
+              <a
+                href="/dashboard"
+                className="px-6 py-3 rounded-md bg-white text-brand font-medium hover:opacity-90"
+              >
                 Acessar
               </a>
             </div>
@@ -201,6 +285,5 @@ export default function App() {
         </div>
       </footer>
     </div>
-  )
+  );
 }
-
