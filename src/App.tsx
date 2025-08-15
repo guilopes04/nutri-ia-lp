@@ -158,6 +158,8 @@ function LeadForm() {
         .select("id")
         .eq("email", sanitizeEmail(email));
 
+      console.log("Existing lead check:", existingLead);
+
       if (existingLead && existingLead.length > 0) {
         // Se já existe lead com esse email, não inserir novamente
         await notifyDiscord(
