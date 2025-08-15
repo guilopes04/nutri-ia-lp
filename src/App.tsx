@@ -54,7 +54,7 @@ const sections = {
 function MobileMenu() {
   const [open, setOpen] = useState(false);
   return (
-    <div className="md:hidden">
+    <div className="lg:hidden">
       <button
         aria-label="Abrir menu"
         className="p-2 rounded-md border hover:bg-gray-50"
@@ -76,7 +76,7 @@ function MobileMenu() {
         </svg>
       </button>
       {open && (
-        <div className="absolute left-0 right-0 top-full bg-white border-b shadow-sm">
+        <div className="absolute left-0 right-0 top-full bg-white border-b shadow-sm z-20">
           <nav className="max-w-6xl mx-auto px-4 py-3 flex flex-col gap-3">
             <a
               href="#como-funciona"
@@ -122,11 +122,11 @@ export default function App() {
   return (
     <div className="min-h-screen flex flex-col">
       <header className="sticky top-0 z-10 bg-white/80 backdrop-blur border-b">
-        <div className="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
+        <div className="relative max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
           <div className="font-semibold">Nutri Assist</div>
 
           {/* Desktop nav */}
-          <div className="hidden md:flex items-center gap-6">
+          <div className="hidden lg:flex items-center gap-6">
             <nav className="flex gap-4 text-sm">
               <a href="#como-funciona" className="hover:text-brand">
                 Como funciona
