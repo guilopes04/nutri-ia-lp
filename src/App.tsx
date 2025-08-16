@@ -297,7 +297,21 @@ export default function App() {
     <div className="min-h-screen flex flex-col">
       <header className="sticky top-0 z-10 bg-white/80 backdrop-blur border-b">
         <div className="relative max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
-          <div className="font-semibold">Nutri Assist</div>
+          <a
+            href="/"
+            onClick={(e) => {
+              if (window.location.pathname === '/') {
+                e.preventDefault()
+                window.scrollTo({ top: 0, behavior: 'smooth' })
+              } else {
+                e.preventDefault()
+                window.location.assign('/')
+              }
+            }}
+            className="font-semibold hover:opacity-80"
+          >
+            Nutri Assist
+          </a>
 
           {/* Desktop nav */}
           <div className="hidden lg:flex items-center gap-6">
@@ -316,7 +330,10 @@ export default function App() {
               </a>
             </nav>
             <div className="flex items-center gap-3">
-              <a href="#cta" className="px-4 py-2 rounded-md bg-brand text-white hover:opacity-90">
+              <a
+                href="#contato"
+                className="px-4 py-2 rounded-md bg-brand text-white hover:opacity-90"
+              >
                 {sections.hero.ctaPrimary}
               </a>
               <a href="/dashboard" className="px-4 py-2 rounded-md border hover:bg-gray-50">
