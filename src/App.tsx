@@ -1,58 +1,58 @@
-import React, { useState } from "react";
+import React, { useState } from 'react'
 
 const sections = {
   hero: {
-    title: "Monte planos alimentares 10x mais rápido com IA",
-    subtitle: "De TMB/TDEE ao plano semanal pronto para Excel — em segundos.",
-    ctaPrimary: "Experimentar agora",
-    ctaSecondary: "Ver demonstração",
+    title: 'Monte planos alimentares 10x mais rápido com IA',
+    subtitle: 'De TMB/TDEE ao plano semanal pronto para Excel — em segundos.',
+    ctaPrimary: 'Experimentar agora',
+    ctaSecondary: 'Ver demonstração',
   },
   howItWorks: [
     {
-      title: "1. Preencha os dados",
-      desc: "Nome, idade, sexo, peso, altura, objetivo, atividade, preferências e restrições.",
+      title: '1. Preencha os dados',
+      desc: 'Nome, idade, sexo, peso, altura, objetivo, atividade, preferências e restrições.',
     },
     {
-      title: "2. Confira as métricas",
-      desc: "Cálculo automático de TMB, TDEE, IMC e alvo calórico.",
+      title: '2. Confira as métricas',
+      desc: 'Cálculo automático de TMB, TDEE, IMC e alvo calórico.',
     },
     {
-      title: "3. Gere com IA",
-      desc: "Plano semanal personalizado em poucos segundos.",
+      title: '3. Gere com IA',
+      desc: 'Plano semanal personalizado em poucos segundos.',
     },
     {
-      title: "4. Exporte em CSV",
-      desc: "Leve para Excel/Google Sheets e compartilhe.",
+      title: '4. Exporte em CSV',
+      desc: 'Leve para Excel/Google Sheets e compartilhe.',
     },
   ],
   benefits: [
-    "Planos em segundos, não em horas",
-    "Cálculo automático de TMB, TDEE, IMC e alvo calórico",
-    "Personalização por objetivo, atividade, preferências e restrições",
-    "Exportação CSV para Excel/Google Sheets",
+    'Planos em segundos, não em horas',
+    'Cálculo automático de TMB, TDEE, IMC e alvo calórico',
+    'Personalização por objetivo, atividade, preferências e restrições',
+    'Exportação CSV para Excel/Google Sheets',
   ],
   faq: [
     {
-      q: "O plano é realmente personalizado?",
-      a: "Sim, usa dados do paciente, objetivo, atividade, restrições e preferências.",
+      q: 'O plano é realmente personalizado?',
+      a: 'Sim, usa dados do paciente, objetivo, atividade, restrições e preferências.',
     },
     {
-      q: "Quais cálculos a ferramenta faz?",
-      a: "TMB (Mifflin-St Jeor), TDEE (fator de atividade), IMC e alvo calórico.",
+      q: 'Quais cálculos a ferramenta faz?',
+      a: 'TMB (Mifflin-St Jeor), TDEE (fator de atividade), IMC e alvo calórico.',
     },
     {
-      q: "Posso editar o plano?",
-      a: "Sim, exporte em CSV e edite no Excel/Google Sheets.",
+      q: 'Posso editar o plano?',
+      a: 'Sim, exporte em CSV e edite no Excel/Google Sheets.',
     },
     {
-      q: "Preciso de integração com prontuário?",
-      a: "Não é obrigatório; você pode anexar o CSV manualmente.",
+      q: 'Preciso de integração com prontuário?',
+      a: 'Não é obrigatório; você pode anexar o CSV manualmente.',
     },
   ],
-};
+}
 
 function MobileMenu() {
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(false)
   return (
     <div className="lg:hidden">
       <button
@@ -78,18 +78,10 @@ function MobileMenu() {
       {open && (
         <div className="absolute left-0 right-0 top-full bg-white border-b shadow-sm z-20">
           <nav className="max-w-6xl mx-auto px-4 py-3 flex flex-col gap-3">
-            <a
-              href="#como-funciona"
-              className="py-2"
-              onClick={() => setOpen(false)}
-            >
+            <a href="#como-funciona" className="py-2" onClick={() => setOpen(false)}>
               Como funciona
             </a>
-            <a
-              href="#beneficios"
-              className="py-2"
-              onClick={() => setOpen(false)}
-            >
+            <a href="#beneficios" className="py-2" onClick={() => setOpen(false)}>
               Benefícios
             </a>
             <a href="#contato" className="py-2" onClick={() => setOpen(false)}>
@@ -100,7 +92,7 @@ function MobileMenu() {
             </a>
             <div className="flex gap-3 pt-1 pb-2">
               <a
-                href="#cta"
+                href="#contato"
                 onClick={() => setOpen(false)}
                 className="flex-1 text-center px-4 py-2 rounded-md bg-brand text-white hover:opacity-90"
               >
@@ -118,47 +110,46 @@ function MobileMenu() {
         </div>
       )}
     </div>
-  );
+  )
 }
 
 function sanitizeEmail(v: string) {
-  return v.trim().toLowerCase();
+  return v.trim().toLowerCase()
 }
 function onlyDigits(v: string) {
-  return v.replace(/\D+/g, "");
+  return v.replace(/\D+/g, '')
 }
 function formatBrPhone(v: string) {
-  const d = onlyDigits(v).slice(0, 11);
-  if (d.length <= 2) return d;
-  if (d.length <= 6) return `(${d.slice(0, 2)}) ${d.slice(2)}`;
-  if (d.length <= 10)
-    return `(${d.slice(0, 2)}) ${d.slice(2, 6)}-${d.slice(6, 10)}`;
-  return `(${d.slice(0, 2)}) ${d.slice(2, 7)}-${d.slice(7, 11)}`;
+  const d = onlyDigits(v).slice(0, 11)
+  if (d.length <= 2) return d
+  if (d.length <= 6) return `(${d.slice(0, 2)}) ${d.slice(2)}`
+  if (d.length <= 10) return `(${d.slice(0, 2)}) ${d.slice(2, 6)}-${d.slice(6, 10)}`
+  return `(${d.slice(0, 2)}) ${d.slice(2, 7)}-${d.slice(7, 11)}`
 }
 
 function LeadForm() {
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [phone, setPhone] = useState("");
-  const [loading, setLoading] = useState(false);
-  const [ok, setOk] = useState<string | null>(null);
-  const [err, setErr] = useState<string | null>(null);
+  const [name, setName] = useState('')
+  const [email, setEmail] = useState('')
+  const [phone, setPhone] = useState('')
+  const [loading, setLoading] = useState(false)
+  const [ok, setOk] = useState<string | null>(null)
+  const [err, setErr] = useState<string | null>(null)
 
   async function onSubmit(e: React.FormEvent) {
-    e.preventDefault();
-    setLoading(true);
-    setOk(null);
-    setErr(null);
+    e.preventDefault()
+    setLoading(true)
+    setOk(null)
+    setErr(null)
     try {
       // 1) Inserir no Supabase
-      const { supabase } = await import("./lib/supabase");
+      const { supabase } = await import('./lib/supabase')
 
       const { data: existingLead } = await supabase
-        .from("leads")
-        .select("id")
-        .eq("email", sanitizeEmail(email));
+        .from('leads')
+        .select('id')
+        .eq('email', sanitizeEmail(email))
 
-      console.log("Existing lead check:", existingLead);
+      console.log('Existing lead check:', existingLead)
 
       if (existingLead && existingLead.length > 0) {
         // Se já existe lead com esse email, não inserir novamente
@@ -169,25 +160,25 @@ function LeadForm() {
             phone: onlyDigits(phone),
           },
           true // É reenvio/duplicado
-        );
+        )
 
-        setOk("Já temos seus dados. Avisamos nosso time do seu interesse.");
-        setName("");
-        setEmail("");
-        setPhone("");
-        return new Response(JSON.stringify({ ok: true }), { status: 200 });
+        setOk('Já temos seus dados. Avisamos nosso time do seu interesse.')
+        setName('')
+        setEmail('')
+        setPhone('')
+        return new Response(JSON.stringify({ ok: true }), { status: 200 })
       }
 
-      await supabase.from("leads").insert(
+      await supabase.from('leads').insert(
         {
           name: name.trim(),
           email: sanitizeEmail(email),
           phone: onlyDigits(phone),
-          source: "landing",
+          source: 'landing',
           created_at: new Date().toISOString(),
         },
-        { returning: "minimal" }
-      );
+        { returning: 'minimal' }
+      )
 
       // 2) Notificar no Discord (usar variável de ambiente para o webhook)
       await notifyDiscord(
@@ -197,63 +188,52 @@ function LeadForm() {
           phone: onlyDigits(phone),
         },
         false // Não é reenvio
-      );
+      )
 
-      setOk("Recebemos seus dados! Obrigado pelo interesse.");
-      setName("");
-      setEmail("");
-      setPhone("");
+      setOk('Recebemos seus dados! Obrigado pelo interesse.')
+      setName('')
+      setEmail('')
+      setPhone('')
 
       //return status 200;
-      return new Response(JSON.stringify({ ok: true }), { status: 200 });
+      return new Response(JSON.stringify({ ok: true }), { status: 200 })
     } catch (e: any) {
-      console.error(e);
+      console.error(e)
 
       // Não exibir erro genérico se for duplicidade que passou batido
-      setErr("Não foi possível enviar agora. Tente novamente mais tarde.");
+      setErr('Não foi possível enviar agora. Tente novamente mais tarde.')
     } finally {
-      setLoading(false);
+      setLoading(false)
     }
   }
 
   async function notifyDiscord(
     lead: {
-      name: string;
-      email: string;
-      phone: string;
+      name: string
+      email: string
+      phone: string
     },
     resend: boolean
   ) {
-    const webhook = import.meta.env.VITE_DISCORD_WEBHOOK_URL as string;
+    const webhook = import.meta.env.VITE_DISCORD_WEBHOOK_URL as string
     if (webhook) {
-      const duplicatedNote = resend ? " (reenvio/duplicado)" : "";
+      const duplicatedNote = resend ? ' (reenvio/duplicado)' : ''
       await fetch(webhook, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           content: `Novo lead${duplicatedNote}: **${lead.name.trim()}**\nEmail: ${sanitizeEmail(
             lead.email
           )}\nTelefone: ${onlyDigits(lead.phone)}`,
         }),
-      });
+      })
     }
   }
 
   return (
-    <form
-      onSubmit={onSubmit}
-      className="mt-6 grid gap-3 rounded-lg border bg-white p-4"
-    >
-      {ok && (
-        <div className="rounded-md bg-green-50 text-green-700 px-3 py-2 text-sm">
-          {ok}
-        </div>
-      )}
-      {err && (
-        <div className="rounded-md bg-red-50 text-red-700 px-3 py-2 text-sm">
-          {err}
-        </div>
-      )}
+    <form onSubmit={onSubmit} className="mt-6 grid gap-3 rounded-lg border bg-white p-4">
+      {ok && <div className="rounded-md bg-green-50 text-green-700 px-3 py-2 text-sm">{ok}</div>}
+      {err && <div className="rounded-md bg-red-50 text-red-700 px-3 py-2 text-sm">{err}</div>}
       <div className="grid gap-1">
         <label className="text-sm" htmlFor="lead-name">
           Nome
@@ -306,10 +286,10 @@ function LeadForm() {
         disabled={loading}
         className="mt-2 inline-flex items-center justify-center rounded-md bg-brand px-4 py-2 text-white hover:opacity-90 disabled:opacity-50"
       >
-        {loading ? "Enviando..." : "Quero saber mais"}
+        {loading ? 'Enviando...' : 'Quero saber mais'}
       </button>
     </form>
-  );
+  )
 }
 
 export default function App() {
@@ -336,16 +316,10 @@ export default function App() {
               </a>
             </nav>
             <div className="flex items-center gap-3">
-              <a
-                href="#cta"
-                className="px-4 py-2 rounded-md bg-brand text-white hover:opacity-90"
-              >
+              <a href="#cta" className="px-4 py-2 rounded-md bg-brand text-white hover:opacity-90">
                 {sections.hero.ctaPrimary}
               </a>
-              <a
-                href="/dashboard"
-                className="px-4 py-2 rounded-md border hover:bg-gray-50"
-              >
+              <a href="/dashboard" className="px-4 py-2 rounded-md border hover:bg-gray-50">
                 Acessar
               </a>
             </div>
@@ -364,20 +338,15 @@ export default function App() {
               <h1 className="text-3xl md:text-5xl font-bold tracking-tight">
                 {sections.hero.title}
               </h1>
-              <p className="mt-4 text-lg text-gray-600">
-                {sections.hero.subtitle}
-              </p>
+              <p className="mt-4 text-lg text-gray-600">{sections.hero.subtitle}</p>
               <div className="mt-6 flex gap-3">
                 <a
-                  href="#cta"
+                  href="#contato"
                   className="px-5 py-3 rounded-md bg-brand text-white hover:opacity-90"
                 >
                   {sections.hero.ctaPrimary}
                 </a>
-                <a
-                  href="/dashboard"
-                  className="px-5 py-3 rounded-md border hover:bg-gray-50"
-                >
+                <a href="/dashboard" className="px-5 py-3 rounded-md border hover:bg-gray-50">
                   Acessar
                 </a>
               </div>
@@ -440,20 +409,14 @@ export default function App() {
 
         {/* Contato / Lead */}
         <section id="contato" className="max-w-3xl mx-auto px-4 py-16">
-          <h2 className="text-2xl md:text-3xl font-semibold">
-            Entre em contato
-          </h2>
-          <p className="mt-2 text-gray-600">
-            Deixe seus dados e nós entraremos em contato.
-          </p>
+          <h2 className="text-2xl md:text-3xl font-semibold">Entre em contato</h2>
+          <p className="mt-2 text-gray-600">Deixe seus dados e nós entraremos em contato.</p>
           <LeadForm />
         </section>
 
         {/* FAQ */}
         <section id="faq" className="max-w-3xl mx-auto px-4 py-16">
-          <h2 className="text-2xl md:text-3xl font-semibold">
-            Perguntas frequentes
-          </h2>
+          <h2 className="text-2xl md:text-3xl font-semibold">Perguntas frequentes</h2>
           <div className="mt-6 space-y-4">
             {sections.faq.map((f) => (
               <details key={f.q} className="rounded-md border bg-white p-4">
@@ -471,9 +434,7 @@ export default function App() {
               <h3 className="text-2xl md:text-3xl font-semibold">
                 Pronto para agilizar seus atendimentos?
               </h3>
-              <p className="mt-2 text-white/90">
-                Gere seu primeiro plano em segundos.
-              </p>
+              <p className="mt-2 text-white/90">Gere seu primeiro plano em segundos.</p>
             </div>
             <div className="flex md:justify-end">
               <a
@@ -493,5 +454,5 @@ export default function App() {
         </div>
       </footer>
     </div>
-  );
+  )
 }
